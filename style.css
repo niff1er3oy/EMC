@@ -1,0 +1,126 @@
+body{
+     margin: 0;
+     padding: 0;
+}
+
+.sidebar{
+     position: fixed;
+     background-color: rgb(44, 44, 44);
+     height: 100%;
+     font-size: 21px;
+     transition: 0.3s;
+     width: 248.516px;
+     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+     z-index: 1;
+}
+
+.head_side {
+     font-size: 50px;
+     padding: 10px 20px;
+     margin-bottom: 10px;
+     color: chartreuse;
+     cursor: pointer;
+}
+
+.sidebar .foot_side{
+     position: absolute;
+     bottom: 0;
+     width: 100%;
+     background-color: chartreuse;
+     padding: 10px 20px;
+     margin-bottom: 10px;
+     color: rgb(44, 44, 44);
+     font-weight: bold;
+     font-size: 25px;
+     border-radius: 0px 50px 50px 0px;
+}
+
+.sidebar .foot_side:hover{
+     background-color: rgb(255, 0, 0);
+     color: rgb(255, 255, 255);
+     transition: 0.3s;
+     cursor: pointer;
+}
+
+.sidebar .nav-link {
+     display: flex;
+     align-items: center;
+     gap: 15px;
+     padding: 10px 20px;
+     color: aliceblue;
+     text-decoration: none;
+}
+
+.sidebar .nav-link:hover {
+     background-color: chartreuse;
+     color: rgb(44, 44, 44);
+     border-radius: 0%;
+     transition: 0.3s;
+}
+
+.sidebar .active {
+     background-color: rgb(255, 255, 255);
+     color: rgb(44, 44, 44);
+     border-radius: 50px 0px 0px 50px;
+     transition: 0.3s;
+     font-weight: bold;
+}
+
+.main-content {
+     margin-left: 250px;
+}
+.grid-container {
+     height: 100vh;
+     display: grid;
+     grid-template-columns: repeat(8, 1fr);
+     grid-template-rows: repeat(8, 1fr);
+}
+.item-title{
+     color: rgb(44, 44, 44);
+     background-color: chartreuse;
+}
+.grid-container .item-title {
+     grid-column: 7 / span 2;
+}
+.grid-container .item-3,.item-7{
+     background-color: rgb(44, 44, 44);
+}
+.grid-container .item-3 {
+     grid-column: 3 / span 6;
+     grid-row: 1 / span 4;
+}
+.grid-container .item-7 {
+     grid-column: 1 / span 6;
+     grid-row: 5 / span 4;
+}
+.grid-container .item-8 {
+     grid-column: 7 / span 2;
+     grid-row: 6 / span 3;
+}
+.grid-container .grid-item {
+     color: rgb(44, 44, 44);
+     padding: 20px;
+     margin: 7px;
+     font-size: 20px;
+     text-align: center;
+     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.grid-container .grid-item:hover {
+     color: chartreuse;
+     cursor: pointer;
+     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.grid-container .active {
+     background-color: rgb(44, 44, 44);
+     color: chartreuse;
+}
+
+.grid-item .title{
+     font-size: 15px;
+     font-weight: bold;
+}
+
+.grid-item .value {
+     font-size: 40px;
+     font-weight: bold;
+}
