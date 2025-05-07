@@ -8,12 +8,12 @@ function initQualityPage() {
              label: 'My First Dataset',
              data: [230, 231, 232, 233, 229, 228, 230],
              fill: false,
-             backgroundColor: 'chartreuse',
-             borderWidth: 6,
+             hoverBackgroundColor: 'chartreuse',
+             borderWidth: 2,
              borderColor: 'chartreuse',
-             pointRadius: 6,
-             pointHoverRadius: 10,
-             hoverBackgroundColor: 'rgba(255, 255, 255, 0.9)',
+             pointRadius: 7,
+             pointHoverRadius: 12,
+             backgroundColor: 'rgba(255, 255, 255)',
              tension: 0.3
              
          }]
@@ -21,41 +21,41 @@ function initQualityPage() {
      
      // แล้วค่อยประกาศ config
      const config = {
-         type: 'line',
-         data: data,
-         options: {
-             maintainAspectRatio: false,
-             plugins: {
-                 legend: {
+          type: 'line',
+          data: data,
+          options: {
+               maintainAspectRatio: false,
+               plugins: {
+                    legend: {
                          display: false // << ปิด legend
-                 }
-             },
-             scales: {
-                 x: {
+                    }
+               },
+               scales: {
+                    x: {
                          ticks: { // ← ต้องเป็น ticks
-                             color: 'chartreuse', // สีตัวอักษรแกน x
-                             font: {
-                                 size: 17
-                             }
+                              color: 'chartreuse', // สีตัวอักษรแกน x
+                              font: {
+                                   size: 17
+                              }
                          },
                          grid: {
-                             color: 'rgba(128, 255, 0, 0.5)',
-                             lineWidth: 3
+                              color: 'rgba(128, 255, 0, 0.5)',
+                              lineWidth: 3
                          }
-                 },
-                 y: {
+                    },
+                    y: {
                          ticks: { // ← ต้องเป็น ticks
-                             color: 'chartreuse', // สีตัวอักษรแกน y
-                             font: {
-                                 size: 17
-                             }
+                              color: 'chartreuse', // สีตัวอักษรแกน y
+                              font: {
+                                   size: 17
+                              }
                          },
                          grid: {
-                             color: 'rgba(128, 255, 0, 0.5)'
+                              color: 'rgba(128, 255, 0, 0.5)'
                          }
-                 }
-             }
-         }
+                    }
+               }
+          }
      };
      
      // สร้างกราฟ
