@@ -18,21 +18,23 @@ body{
      width: 248.516px;
      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
      z-index: 1;
+     display: grid;
+     grid-template-columns: 1fr;
+     grid-template-rows: 10% 1fr 65px;
 }
 
-.head_side {
-     font-size: 33px;
+.sidebar .head-side {
+     display: flex;
+     font-size: 40px;
      font-weight: bold;
-     padding: 10px 20px;
-     margin-bottom: 10px;
      color: chartreuse;
      cursor: default;
+     background-color: rgb(44, 44, 44);
+     justify-content: center;
+     align-items: center;
 }
 
-.sidebar .foot_side{
-     position: absolute;
-     bottom: 0;
-     width: 100%;
+.sidebar .foot-side{
      background-color: chartreuse;
      padding: 10px 20px;
      margin-bottom: 10px;
@@ -40,32 +42,40 @@ body{
      font-weight: bold;
      font-size: 25px;
      border-radius: 0px 50px 50px 0px;
+
+     justify-content: center;
+     align-items: center;
 }
 
-.sidebar .foot_side:hover{
+.sidebar .foot-side:hover{
      background-color: rgb(255, 0, 0);
      color: rgb(255, 255, 255);
      transition: 0.3s;
      cursor: pointer;
+     border-radius: 0px;
 }
 
-.sidebar .nav-link {
+.sidebar .list-side .nav-link {
      display: flex;
      align-items: center;
      gap: 15px;
      padding: 10px 20px;
      color: aliceblue;
      text-decoration: none;
+     cursor: pointer;
+     border-radius: 0px;
+     margin: 5px 0px;
 }
 
-.sidebar .nav-link:hover {
+.sidebar .list-side .nav-link:hover {
      background-color: chartreuse;
      color: rgb(44, 44, 44);
      border-radius: 0%;
      transition: 0.3s;
+     border-radius: 0px 50px 50px 0px;
 }
 
-.sidebar .active {
+.sidebar .list-side .active {
      background-color: rgb(255, 255, 255);
      color: rgb(44, 44, 44);
      border-radius: 50px 0px 0px 50px;
@@ -107,12 +117,15 @@ body{
 }
 .device .grid-item, .grid-title, .grid-canvas {
      color: rgb(44, 44, 44);
-     padding: 20px;
+     padding: 8px;
      margin: 7px;
      font-size: 20px;
      text-align: center;
      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
      border-radius: 20px;
+}
+.device .grid-canvas {
+     padding: 20px;
 }
 .device .grid-item:hover {
      border-inline: 4px solid chartreuse;
@@ -130,7 +143,7 @@ body{
 }
 
 .device .grid-item .value {
-     font-size: 40px;
+     font-size: 30px;
      font-weight: bold;
 }
 
@@ -139,7 +152,7 @@ body{
 }
 
 .device .grid-title .value {
-     font-size: 50px;
+     font-size: 40px;
      font-weight: bold;
 }
 
@@ -162,4 +175,5 @@ body{
 
 .qua .canva{
      grid-column: 1 / span 2;
+     background-color: rgb(44, 44, 44);
 }
