@@ -7,31 +7,42 @@ body{
      font-optical-sizing: auto;
      font-weight: 400;
      font-style: normal;
+     cursor: default;
+}
+
+.content {
+     display: grid;
+    grid-template-columns: 250px 1fr;
+    height: 100vh; /* ความสูงเต็มจอ */
+    transition: grid-template-columns 0.3s;
 }
 
 .sidebar{
-     position: fixed;
      background-color: rgb(44, 44, 44);
-     height: 100%;
+     height: 100vh;
      font-size: 17px;
      transition: 0.3s;
-     width: 248.516px;
-     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
      z-index: 1;
      display: grid;
      grid-template-columns: 1fr;
-     grid-template-rows: 10% 1fr 65px;
+     grid-template-rows: 65px 1fr 65px;
+     overflow-y: auto;
 }
 
 .sidebar .head-side {
      display: flex;
-     font-size: 40px;
+     font-size: 35px;
      font-weight: bold;
      color: chartreuse;
      cursor: default;
      background-color: rgb(44, 44, 44);
      justify-content: center;
      align-items: center;
+     gap: 5px;
+}
+
+.sidebar .head-side:hover {
+     color: rgb(255, 255, 255);
 }
 
 .sidebar .foot-side{
@@ -83,9 +94,26 @@ body{
      font-weight: bold;
 }
 
+.sidebar.collapsed .list-side .nav-link span:not(.icon),
+.sidebar.collapsed .foot-side span:not(.icon),
+.sidebar.collapsed .head-side span:not(.icon) {
+    display: none;
+    transition: 0.3s;
+}
+
+.sidebar.collapsed .nav-link,
+.sidebar.collapsed .foot-side,
+.sidebar.collapsed .head-side {
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    font-size: 25px;
+}
+
 .main-content {
-     margin-left: 250px;
      height: 100vh;
+     overflow-y: auto;
+     grid-column: 2;
 }
 
 .device {
@@ -138,13 +166,31 @@ body{
      color: chartreuse;
 }
 
+.device .grid-item, .grid-title{
+     display: flex;
+     flex-direction: column;     /* ให้เรียงแนวตั้ง */
+     justify-content: center;    /* จัดตรงกลางแนวตั้ง */
+     align-items: center;        /* จัดตรงกลางแนวนอน */
+}
+
 .device .grid-item .title{
-     font-size: 15px;
+     font-size: 16px;
+}
+
+.device .grid-item .value-container {
+    display: flex;
+    align-items: baseline; /* ทำให้ตัวเลขกับหน่วยเรียงแนวฐาน */
+    gap: 4px;
+    margin-top: 5px;
 }
 
 .device .grid-item .value {
-     font-size: 30px;
-     font-weight: bold;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.device .grid-item .unit {
+    font-size: 18px;
 }
 
 .device .grid-title .title{

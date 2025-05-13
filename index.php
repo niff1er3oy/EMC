@@ -10,20 +10,40 @@
         <script src="https://kit.fontawesome.com/cefac98de9.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <?php include('sidebar.php');?>
-        <div class="main-content" id="mainContent">
-            <?php
-                if (isset($_GET['page'])) {
-                    $page = basename($_GET['page']); // ป้องกัน path traversal
-                    if (file_exists($page)) {
-                        include($page);
+        <div class="content">
+            <div class="sidebar" id="sidebar">
+                <?php include('sidebar.php');?>
+            </div>
+            <div class="main-content" id="mainContent">
+                <?php
+                    if (isset($_GET['page'])) {
+                        $page = basename($_GET['page']); // ป้องกัน path traversal
+                        if (file_exists($page)) {
+                            include($page);
+                        } else {
+                            echo "ไม่พบหน้า $page";
+                        }
                     } else {
-                        echo "ไม่พบหน้า $page";
+                        echo "ไม่ได้ระบุหน้า";
                     }
-                } else {
-                    echo "ไม่ได้ระบุหน้า";
-                }
-            ?>
+                ?>
+            </div>
         </div>
     </body>
 </html>
+
+<script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const content = document.querySelector('.content');
+
+    toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+
+        if (sidebar.classList.contains('collapsed')) {
+            content.style.gridTemplateColumns = '65px 1fr';
+        } else {
+            content.style.gridTemplateColumns = '250px 1fr'; // หรือขนาด sidebar ปกติของคุณ
+        }
+    });
+</script>
