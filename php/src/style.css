@@ -143,7 +143,7 @@ body{
      grid-column: 1 / span 6;
      grid-row: 1 / span 5;
 }
-.device .grid-item, .grid-title, .grid-canvas {
+.device .grid-item, .grid-title, .grid-chart {
      color: rgb(44, 44, 44);
      padding: 8px;
      margin: 7px;
@@ -153,16 +153,10 @@ body{
      border-radius: 20px;
 }
 
-.device .grid-canvas {
+.device .grid-chart {
      padding: 20px;
      display: grid;
      grid-template-rows: 10% 1fr;
-}
-
-.device .grid-canvas canvas {
-     width: 100% !important;
-     height: 400px !important; /* หรือขนาดที่เหมาะสมกับ UI ของคุณ */
-     display: block;
 }
 
 .device .grid-item:hover {
@@ -247,4 +241,57 @@ body{
 }
 .qua .grid .graph {
      background-color: rgb(168, 255, 127);
+}
+
+.mode-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; /* หรือใช้ flex-start หากไม่อยากให้มันแยกสุด */
+    gap: 1rem;
+    flex-wrap: wrap; /* ป้องกันล้นหน้าจอ */
+}
+
+.mode-buttons .sort-label {
+    font-size: 2rem;
+    font-weight: bold;
+    color: chartreuse;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.button-group button {
+    padding: 0.5rem 1rem;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    font-size: 0.95rem;
+}
+
+.button-group button:hover {
+    background: #e6ffdc;
+    transform: translateY(-2px);
+}
+
+button.download {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    font-size: 0.95rem;
+
+    background: rgb(128, 255, 0);
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+button.download:hover {
+    background: rgb(108, 216, 0);
 }

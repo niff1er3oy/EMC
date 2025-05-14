@@ -39,7 +39,7 @@ function initElectricalPage() {
                fill: false,
                backgroundColor: 'chartreuse',
                hoverBackgroundColor: 'rgba(255, 255, 255, 0.9)',
-               tension: 0.1
+               tension: 0.3
           }]
      };
      
@@ -48,7 +48,11 @@ function initElectricalPage() {
           type: 'bar',
           data: data,
           options: {
+               responsive: true,
                maintainAspectRatio: false,
+               layout: {
+                    padding: 0 // หลีกเลี่ยง padding ส่วนเกิน
+               },
                plugins: {
                     legend: {
                          display: false // << ปิด legend
@@ -121,6 +125,12 @@ document.querySelectorAll('.grid-item[data-type][data-device]').forEach(el => {
           // เพิ่มคลาส active ให้กับปุ่มที่ถูกคลิก
           el.classList.add('active');
 
+          // อัปเดตข้อความของ <div class="type" id="type-name-1">
+          const typeNameEl = document.getElementById(`type-name-${device}`);
+          if (typeNameEl) {
+               typeNameEl.textContent = type; // หรือ el.textContent หากต้องการข้อความที่แสดงบนปุ่ม
+          }
+
           selectedTypeByDevice[device] = type;
           updateChart(device);
           console.log(`querySelectorAll device=${device} &type=${type}`);
@@ -142,5 +152,12 @@ document.querySelectorAll('.mode-buttons button').forEach(btn => {
 // อัปเดตทุก 5 วินาที
 setInterval(() => updateChart('1'), 50000);
 setInterval(() => updateChart('2'), 50000);
+
+document.querySelectorAll('.download').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const device = btn.dataset.device;
+        window.open(`export_excel.php?device=${device}`, '_blank');
+    });
+});
 
 }

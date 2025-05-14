@@ -59,19 +59,20 @@
                <span class="unit">kWh</span>
           </div>
      </div>
-     <div class="grid-canvas item-3">
+     <div class="grid-chart item-3">
           <div class="mode-buttons" data-device="1">
-               <div class="type">Type-Name</div>
                <div class="sort-label">Sort by</div>
                <div class="button-group">
                     <button data-mode="latest">Latest</button>
                     <button data-mode="day">Day</button>
                     <button data-mode="month">Month</button>
                     <button data-mode="year">Year</button>
-                    <button class="download">Download</button>
                </div>
+               <button class="download" data-device="1">Download</button>
           </div>
-          <canvas id="myChart1"></canvas>
+          <div class="mycanvas">
+               <canvas id="myChart1"></canvas>
+          </div>
      </div>
 </div>
 <div class="device" id="device-2">
@@ -134,18 +135,19 @@
                <span class="unit">kWh</span>
           </div>
      </div>
-     <div class="grid-canvas item-7">
+     <div class="grid-chart item-7">
           <div class="mode-buttons" data-device="2">
-               <div class="type">Type-Name</div>
                <div class="sort-label">Sort by</div>
                <div class="button-group">
                     <button data-mode="latest">Latest</button>
                     <button data-mode="day">Day</button>
                     <button data-mode="month">Month</button>
                     <button data-mode="year">Year</button>
-                    <button class="download">Download</button>
                </div>
+               <button class="download" data-device="2">Download</button>
           </div>
-          <canvas id="myChart2"></canvas>
+          <div class="mycanvas">
+               <canvas id="myChart2"></canvas>
+          </div>
      </div>  
 </div>
