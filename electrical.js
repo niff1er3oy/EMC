@@ -1,23 +1,36 @@
 function initElectricalPage() {
+     function loadDeviceData() {
+     fetch('get-latest-data.php')
+          .then(response => response.json())
+          .then(data => {
+               console.log('loadDeviceData ทำงานแล้ว!');
+               data.forEach(device => {
+                    const id = device.Dv_ID;
+                    document.querySelector(`#device-${id} [data-type="voltage"] .value`).textContent = device.Van;
+                    document.querySelector(`#device-${id} [data-type="current"] .value`).textContent = device.Ia;
+                    document.querySelector(`#device-${id} [data-type="a-power"] .value`).textContent = device.Pa;
+                    document.querySelector(`#device-${id} [data-type="r-power"] .value`).textContent = device.Qa;
+                    document.querySelector(`#device-${id} [data-type="app-power"] .value`).textContent = device.Sa;
+                    document.querySelector(`#device-${id} [data-type="power-f"] .value`).textContent = device.Pfa;
+                    document.querySelector(`#device-${id} [data-type="f"] .value`).textContent = device.f;
+                    document.querySelector(`#device-${id} [data-type="t-a-e"] .value`).textContent = device.pkWh_all;
+               });
+          })
+          .catch(error => {
+               console.error("โหลดข้อมูลล้มเหลว", error);
+          });
+     }
+
+     // เรียกเมื่อโหลดหน้า
+     new loadDeviceData;
+     setInterval(loadDeviceData, 50000); // โหลดข้อมูลทุก 5 วินาที
+
      console.log('JS ทำงานแล้ว!');
+     
      const ctx1 = document.getElementById('myChart1').getContext('2d');
      const ctx2 = document.getElementById('myChart2').getContext('2d');
      
-     // ตัวอย่างข้อมูลจำลองแยกตามอุปกรณ์
-     const sampleData = {
-          1: { // Device 1
-               voltage: [230, 231, 232, 233, 229, 228, 230],
-               current: [10, 9.5, 8.8, 9, 9.2, 9.3, 9.1],
-               power:   [1.2, 1.3, 1.4, 1.5, 1.1, 1.0, 1.2]
-          },
-          2: { // Device 2
-               voltage: [220, 219, 222, 221, 223, 224, 222],
-               current: [8.5, 8.6, 8.8, 9.0, 9.1, 8.9, 9.0],
-               power:   [1.0, 1.1, 1.2, 1.3, 1.0, 1.2, 1.1]
-          }
-     };
-     
-     const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July']; // หรือ Utils.months() ก็ได้ถ้ามี
+     const labels = []; // หรือ Utils.months() ก็ได้ถ้ามี
      const data = {
           labels: labels,
           datasets: [{
@@ -73,31 +86,61 @@ function initElectricalPage() {
      const chart1 = new Chart(ctx1, config);
      const chart2 = new Chart(ctx2, config);
      
-     document.querySelectorAll('.grid-item[data-type][data-device]').forEach(el => {
-          el.style.cursor = 'pointer';
-          el.addEventListener('click', () => {
-               const type = el.dataset.type;
-               const device = el.dataset.device;
-     
-               const data = sampleData[device]?.[type] || [];
-     
-               // อัปเดตกราฟแยกตามอุปกรณ์
+// state เก็บ type ที่เลือกของแต่ละ device
+const selectedTypeByDevice = { '1': null, '2': null };
+const selectedModeByDevice = { '1': 'latest', '2': 'latest' }; // ค่าเริ่มต้น
+
+function updateChart(device) {
+     const type = selectedTypeByDevice[device];
+     const mode = selectedModeByDevice[device];
+     if (!type) return;
+
+     fetch(`get_device_data.php?device=${device}&mode=${mode}`)
+          .then(res => res.json())
+          .then(data => {
                const chart = device === '1' ? chart1 : chart2;
-               chart.data.datasets[0].data = data;
-               chart.data.datasets[0].label = `${type.toUpperCase()} (Device ${device})`;
+               console.log(`updateChart device=${device} &mode=${mode} &type=${type}`);
+               chart.data.labels = data.map(entry => entry.label);
+               chart.data.datasets[0].data = data.map(entry => entry[type]);
+               chart.data.datasets[0].label = `${type.toUpperCase()} (Device ${device} - ${mode})`;
                chart.update();
-     
-               // ลบคลาส active เฉพาะในกลุ่ม device นั้น
-               const deviceContainer = el.closest('.device');
-               deviceContainer.querySelectorAll('.grid-item').forEach(item => {
-                    item.classList.remove('active');
-               });
-     
-               // เพิ่ม active ให้ item ที่คลิก
-               const parentItem = el.closest('.grid-item');
-               if (parentItem) {
-                    parentItem.classList.add('active');
-               }
           });
+}
+
+// เมื่อคลิกเลือกประเภท
+document.querySelectorAll('.grid-item[data-type][data-device]').forEach(el => {
+     el.style.cursor = 'pointer';
+     el.addEventListener('click', () => {
+          const type = el.dataset.type;
+          const device = el.dataset.device;
+          // ลบคลาส active จากปุ่มอื่น ๆ ที่อยู่ในกลุ่ม device เดียวกัน
+          document.querySelectorAll(`.grid-item[data-device="${device}"]`).forEach(item => {
+               item.classList.remove('active');
+          });
+
+          // เพิ่มคลาส active ให้กับปุ่มที่ถูกคลิก
+          el.classList.add('active');
+
+          selectedTypeByDevice[device] = type;
+          updateChart(device);
+          console.log(`querySelectorAll device=${device} &type=${type}`);
      });
+});
+
+// เมื่อคลิกปุ่มเลือก mode
+document.querySelectorAll('.mode-buttons button').forEach(btn => {
+     btn.addEventListener('click', () => {
+          const device = btn.closest('.mode-buttons').dataset.device;
+          const mode = btn.dataset.mode;
+
+          selectedModeByDevice[device] = mode;
+          updateChart(device);
+          console.log(`querySelectorAll device=${device} &mode=${mode}`);
+     });
+});
+
+// อัปเดตทุก 5 วินาที
+setInterval(() => updateChart('1'), 50000);
+setInterval(() => updateChart('2'), 50000);
+
 }

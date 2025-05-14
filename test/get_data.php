@@ -1,75 +1,66 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$dbname = "test"; // เปลี่ยนชื่อฐานข้อมูล
-$conn = new mysqli($host, $user, $pass, $dbname);
-$conn->set_charset("utf8");
+require 'db_config.php';
 
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+$range = $_GET['range'] ?? '24h';
+$avg = $_GET['avg'] ?? 'none';
+
+$start_time = date('Y-m-d H:i:s');
+
+switch ($range) {
+    case '24h':
+        $start_time = date('Y-m-d H:i:s', strtotime('-24 hours'));
+        break;
+    case '7d':
+        $start_time = date('Y-m-d H:i:s', strtotime('-7 days'));
+        break;
+    case '30d':
+        $start_time = date('Y-m-d H:i:s', strtotime('-30 days'));
+        break;
+    case '3m':
+        $start_time = date('Y-m-d H:i:s', strtotime('-3 months'));
+        break;
 }
 
-$range = $_GET['range'] ?? '7d';         // 24h, 7d, 30d
-$groupby = $_GET['groupby'] ?? 'hour';   // hour, day, month
+$sql = "";
+$params = [":start_time" => $start_time];
+
+if ($avg == "none") {
+    $sql = "SELECT Ia, CONCAT(date, ' ', time) AS datetime FROM schneider WHERE Dv_ID = 2 AND date >= :start_time ORDER BY date, time";
+} elseif ($avg == "1h") {
+    $sql = "SELECT DATE(date) AS d, HOUR(time) AS h, AVG(Ia) AS avg_Ia 
+            FROM schneider 
+            WHERE Dv_ID = 2 AND date >= :start_time 
+            GROUP BY d, h ORDER BY d, h";
+} elseif ($avg == "1d" && in_array($range, ['7d','30d','3m'])) {
+    $sql = "SELECT DATE(date) AS d, AVG(Ia) AS avg_Ia 
+            FROM schneider 
+            WHERE Dv_ID = 2 AND date >= :start_time 
+            GROUP BY d ORDER BY d";
+} elseif ($avg == "1m" && $range == "3m") {
+    $sql = "SELECT YEAR(date) AS y, MONTH(date) AS m, AVG(Ia) AS avg_Ia 
+            FROM schneider 
+            WHERE Dv_ID = 2 AND date >= :start_time 
+            GROUP BY y, m ORDER BY y, m";
+} else {
+    echo json_encode(["error" => "Invalid selection"]);
+    exit;
+}
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
 $data = [];
 
-$conditions = "Dv_ID = 1";
-$group = "";
-$label = "";
-$order = "";
-
-// ✅ กรองช่วงเวลา
-switch ($range) {
-  case '24h':
-    $conditions .= " AND CONCAT(date, ' ', time) >= NOW() - INTERVAL 24 HOUR";
-    break;
-  case '7d':
-    $conditions .= " AND date >= CURDATE() - INTERVAL 6 DAY";
-    break;
-  case '30d':
-    $conditions .= " AND date >= CURDATE() - INTERVAL 30 DAY";
-    break;
-  default:
-    echo json_encode([]); exit;
-}
-
-// ✅ จัดกลุ่มเฉลี่ย
-switch ($groupby) {
-  case 'hour':
-    $group = "DATE(date), HOUR(time)";
-    $label = "DATE_FORMAT(CONCAT(date, ' ', time), '%d/%m %H:00')";
-    $order = "date, HOUR(time)";
-    break;
-  case 'day':
-    $group = "DATE(date)";
-    $label = "DATE_FORMAT(date, '%d/%m')";
-    $order = "date";
-    break;
-  case 'month':
-    $group = "YEAR(date), MONTH(date)";
-    $label = "DATE_FORMAT(date, '%b %Y')";
-    $order = "YEAR(date), MONTH(date)";
-    break;
-  default:
-    echo json_encode([]); exit;
-}
-
-// ✅ ดึงข้อมูลเฉลี่ย
-$sql = "SELECT $label AS label, AVG(f) AS value
-        FROM schneider
-        WHERE $conditions
-        GROUP BY $group
-        ORDER BY $order";
-
-$result = $conn->query($sql);
-while ($row = $result->fetch_assoc()) {
-  $data[] = [
-    'label' => $row['label'],
-    'value' => floatval($row['value'])
-  ];
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    if ($avg == "none") {
+        $data[] = ["datetime" => $row["datetime"], "Ia" => $row["Ia"]];
+    } elseif ($avg == "1h") {
+        $data[] = ["datetime" => $row["d"] . ' ' . $row["h"] . ":00", "avg_Ia" => $row["avg_Ia"]];
+    } elseif ($avg == "1d") {
+        $data[] = ["datetime" => $row["d"], "avg_Ia" => $row["avg_Ia"]];
+    } elseif ($avg == "1m") {
+        $data[] = ["datetime" => $row["y"] . '-' . str_pad($row["m"], 2, "0", STR_PAD_LEFT), "avg_Ia" => $row["avg_Ia"]];
+    }
 }
 
 echo json_encode($data);
-$conn->close();
 ?>

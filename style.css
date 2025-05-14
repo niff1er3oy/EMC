@@ -152,9 +152,19 @@ body{
      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
      border-radius: 20px;
 }
+
 .device .grid-canvas {
      padding: 20px;
+     display: grid;
+     grid-template-rows: 10% 1fr;
 }
+
+.device .grid-canvas canvas {
+     width: 100% !important;
+     height: 400px !important; /* หรือขนาดที่เหมาะสมกับ UI ของคุณ */
+     display: block;
+}
+
 .device .grid-item:hover {
      border-inline: 4px solid chartreuse;
      cursor: pointer;
