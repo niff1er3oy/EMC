@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
+body{
+     margin: 0;
+     padding: 0;
+     font-family: "Roboto Slab", serif;
+     font-optical-sizing: auto;
+     font-weight: 400;
+     font-style: normal;
+     cursor: default;
+}
+
+.content {
+     display: grid;
+    grid-template-columns: 250px 1fr;
+    height: 100vh; /* ความสูงเต็มจอ */
+    transition: grid-template-columns 0.3s;
+}
+
+.sidebar{
+     background-color: rgb(44, 44, 44);
+     height: 100vh;
+     font-size: 17px;
+     transition: 0.3s;
+     z-index: 1;
+     display: grid;
+     grid-template-columns: 1fr;
+     grid-template-rows: 65px 1fr 65px;
+     overflow-y: auto;
+}
+
+.sidebar .head-side {
+     display: flex;
+     font-size: 35px;
+     font-weight: bold;
+     color: chartreuse;
+     cursor: default;
+     background-color: rgb(44, 44, 44);
+     justify-content: center;
+     align-items: center;
+     gap: 5px;
+}
+
+.sidebar .head-side:hover {
+     color: rgb(255, 255, 255);
+}
+
+.sidebar .foot-side{
+     background-color: chartreuse;
+     padding: 10px 20px;
+     margin-bottom: 10px;
+     color: rgb(44, 44, 44);
+     font-weight: bold;
+     font-size: 25px;
+     border-radius: 0px 50px 50px 0px;
+
+     justify-content: center;
+     align-items: center;
+}
+
+.sidebar .foot-side:hover{
+     background-color: rgb(255, 0, 0);
+     color: rgb(255, 255, 255);
+     transition: 0.3s;
+     cursor: pointer;
+     border-radius: 0px;
+}
+
+.sidebar .list-side .nav-link {
+     display: flex;
+     align-items: center;
+     gap: 15px;
+     padding: 10px 20px;
+     color: aliceblue;
+     text-decoration: none;
+     cursor: pointer;
+     border-radius: 0px;
+     margin: 5px 0px;
+}
+
+.sidebar .list-side .nav-link:hover {
+     background-color: chartreuse;
+     color: rgb(44, 44, 44);
+     border-radius: 0%;
+     transition: 0.3s;
+     border-radius: 0px 50px 50px 0px;
+}
+
+.sidebar .list-side .active {
+     background-color: rgb(255, 255, 255);
+     color: rgb(44, 44, 44);
+     border-radius: 50px 0px 0px 50px;
+     transition: 0.3s;
+     font-weight: bold;
+}
+
+.sidebar.collapsed .list-side .nav-link span:not(.icon),
+.sidebar.collapsed .foot-side span:not(.icon),
+.sidebar.collapsed .head-side span:not(.icon) {
+    display: none;
+    transition: 0.3s;
+}
+
+.sidebar.collapsed .nav-link,
+.sidebar.collapsed .foot-side,
+.sidebar.collapsed .head-side {
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    font-size: 25px;
+}
+
+.main-content {
+     height: 100vh;
+     overflow-y: auto;
+     grid-column: 2;
+}
+
+.device {
+     height: 50%;
+     display: grid;
+     grid-template-columns: repeat(8, 1fr);
+     grid-template-rows: repeat(5, 1fr);
+}
+.item-title-1, .item-title-2{
+     color: rgb(44, 44, 44);
+     background-color: chartreuse;
+}
+.device .item-title-1 {
+     grid-column: 1 / span 2;
+}
+.device .item-title-2 {
+     grid-column: 7 / span 2;
+}
+.device .item-3,.item-7{
+     background-color: rgb(44, 44, 44);
+}
+.device .item-3 {
+     grid-column: 3 / span 6;
+     grid-row: 1 / span 5;
+}
+.device .item-7 {
+     grid-column: 1 / span 6;
+     grid-row: 1 / span 5;
+}
+.device .grid-item, .grid-title, .grid-canvas {
+     color: rgb(44, 44, 44);
+     padding: 8px;
+     margin: 7px;
+     font-size: 20px;
+     text-align: center;
+     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+     border-radius: 20px;
+}
+
+.device .grid-canvas {
+     padding: 20px;
+     display: grid;
+     grid-template-rows: 10% 1fr;
+}
+
+.device .grid-canvas canvas {
+     width: 100% !important;
+     height: 400px !important; /* หรือขนาดที่เหมาะสมกับ UI ของคุณ */
+     display: block;
+}
+
+.device .grid-item:hover {
+     border-inline: 4px solid chartreuse;
+     cursor: pointer;
+     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+     transition: 0.1s;
+}
+.device .active {
+     background-color: rgb(44, 44, 44);
+     color: chartreuse;
+}
+
+.device .grid-item, .grid-title{
+     display: flex;
+     flex-direction: column;     /* ให้เรียงแนวตั้ง */
+     justify-content: center;    /* จัดตรงกลางแนวตั้ง */
+     align-items: center;        /* จัดตรงกลางแนวนอน */
+}
+
+.device .grid-item .title{
+     font-size: 16px;
+}
+
+.device .grid-item .value-container {
+    display: flex;
+    align-items: baseline; /* ทำให้ตัวเลขกับหน่วยเรียงแนวฐาน */
+    gap: 4px;
+    margin-top: 5px;
+}
+
+.device .grid-item .value {
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.device .grid-item .unit {
+    font-size: 18px;
+}
+
+.device .grid-title .title{
+     font-size: 20px;
+}
+
+.device .grid-title .value {
+     font-size: 40px;
+     font-weight: bold;
+}
+
+.qua {
+     height: 100%;
+     display: grid;
+     grid-template-columns: repeat(2, 1fr);
+     grid-template-rows: repeat(2, 1fr);
+}
+
+.qua .grid {
+     color: rgb(44, 44, 44);
+     margin: 10px;
+     font-size: 20px;
+     text-align: center;
+     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+     border-radius: 20px;
+}
+
+.qua .canva {
+     padding: 20px;
+     grid-column: 1 / span 2;
+     background-color: rgb(44, 44, 44);
+}
+
+.qua .card {
+     padding: 10px;
+     display: grid;
+     grid-template-rows: 45% 1fr;
+}
+
+.qua .grid .details {
+     background-color: aquamarine;
+     display: grid;
+     grid-template-columns: 25% 1fr;
+}
+.qua .grid .graph {
+     background-color: rgb(168, 255, 127);
+}
