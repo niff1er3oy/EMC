@@ -227,13 +227,13 @@ body{
 .qua .card {
      padding: 10px;
      display: grid;
-     grid-template-rows: 200px 1fr;
+     grid-template-rows: 45% 1fr;
 }
 
 .qua .grid .details {
      background-color: aquamarine;
      display: grid;
-     grid-template-columns: 200px 1fr;
+     grid-template-columns: 25% 1fr;
 }
 .qua .grid .graph {
      background-color: rgb(168, 255, 127);
