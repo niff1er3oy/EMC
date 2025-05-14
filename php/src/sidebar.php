@@ -18,7 +18,7 @@
           </span>
           <span>Water Quality</span>
      </div>
-     <div class="nav-link">
+     <div class="nav-link" onclick="navigateToPage(this, 'temperature.php')">
           <span class="icon">
                <i class="fa-solid fa-temperature-low"></i>
           </span>
