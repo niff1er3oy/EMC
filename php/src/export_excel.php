@@ -9,7 +9,7 @@ header("Content-Disposition: attachment; filename=Device{$device}_latest.csv");
 $output = fopen('php://output', 'w');
 fputcsv($output, ['pkWh_all', 'Van', 'Ia', 'Pa', 'Qa', 'Sa', 'Pfa', 'f', 'date', 'time']); // หัวตาราง
 
-$sql = "SELECT pkWh_all, Van, Ia, Pa, Qa, Sa, Pfa, f, date, time FROM schneider WHERE Dv_ID = $device ORDER BY id DESC";
+$sql = "SELECT pkWh_all, Van, Ia, Pa, Qa, Sa, Pfa, f, date, time FROM Schneider WHERE Dv_ID = $device ORDER BY id DESC";
 $result = $conn->query($sql);
 
 while ($row = $result->fetch_assoc()) {

@@ -6,7 +6,7 @@ $mode = isset($_GET['mode']) ? $_GET['mode'] : 'latest';
 
 if ($mode === 'latest') {
     $sql = "SELECT pkWh_all, Van, Ia, Pa, Qa, Sa, Pfa, f, date, time 
-            FROM schneider 
+            FROM Schneider 
             WHERE Dv_ID = $device_id 
             ORDER BY id DESC 
             LIMIT 7";
@@ -15,7 +15,7 @@ if ($mode === 'latest') {
                 HOUR(time) as hour,
                 AVG(Van) as Van, AVG(Ia) as Ia, AVG(Pa) as Pa, AVG(Qa) as Qa,
                 AVG(Sa) as Sa, AVG(Pfa) as Pfa, AVG(f) as f, AVG(pkWh_all) as pkWh_all
-            FROM schneider
+            FROM Schneider
             WHERE Dv_ID = $device_id AND date = CURDATE()
             GROUP BY HOUR(time)
             ORDER BY hour";
@@ -24,7 +24,7 @@ if ($mode === 'latest') {
                 date,
                 AVG(Van) as Van, AVG(Ia) as Ia, AVG(Pa) as Pa, AVG(Qa) as Qa,
                 AVG(Sa) as Sa, AVG(Pfa) as Pfa, AVG(f) as f, AVG(pkWh_all) as pkWh_all
-            FROM schneider
+            FROM Schneider
             WHERE Dv_ID = $device_id AND MONTH(date) = MONTH(CURDATE()) AND YEAR(date) = YEAR(CURDATE())
             GROUP BY date
             ORDER BY date";
@@ -33,7 +33,7 @@ if ($mode === 'latest') {
                 MONTH(date) as month,
                 AVG(Van) as Van, AVG(Ia) as Ia, AVG(Pa) as Pa, AVG(Qa) as Qa,
                 AVG(Sa) as Sa, AVG(Pfa) as Pfa, AVG(f) as f, AVG(pkWh_all) as pkWh_all
-            FROM schneider
+            FROM Schneider
             WHERE Dv_ID = $device_id AND YEAR(date) = YEAR(CURDATE())
             GROUP BY MONTH(date)
             ORDER BY month";

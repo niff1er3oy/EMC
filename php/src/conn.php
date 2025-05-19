@@ -1,8 +1,8 @@
 <?php
-    $servername = "db";
-    $username = "admin";
-    $password = "1234";
-    $dbname = "EMC";
+    $servername = "158.108.110.95";
+    $username = "datatech";
+    $password = "datatech@csc";
+    $dbname = "datatech";
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     
     if (!$conn) {

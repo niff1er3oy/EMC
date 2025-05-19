@@ -73,7 +73,7 @@ function fetchData(mode = 'latest') {
       }
 
       // แสดงค่าใหม่ล่าสุด พร้อมตรวจสอบว่าเป็นตัวเลขหรือไม่
-      const latest = data[data.length - 1];
+      const latest = data[0];
       document.getElementById('latest').innerHTML = `
   <strong>ช่วงเวลา:</strong> ${latest.label}<br>
   🌡️ Temp: ${isNaN(parseFloat(latest.temp)) ? 'N/A' : parseFloat(latest.temp).toFixed(2)}°C | 
