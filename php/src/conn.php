@@ -1,5 +1,6 @@
 <?php
-    $servername = "158.108.110.95";
+    // $servername = "158.108.110.95";
+    $servername = "localhost";
     $username = "datatech";
     $password = "datatech@csc";
     $dbname = "datatech";
