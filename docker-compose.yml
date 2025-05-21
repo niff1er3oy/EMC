@@ -11,6 +11,12 @@ services:
       - ./php/src:/var/www/html/
     ports:
       - 8080:80
+    environment:
+      DB_HOST: db
+      DB_USER: datatech
+      DB_PASSWORD: datatech@csc
+      DB_NAME: datatech
+
   db:
     container_name: db
     image: mysql
@@ -22,6 +28,7 @@ services:
       MYSQL_PASSWORD: datatech@csc
     ports:
       - "9906:3306"
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
@@ -32,4 +39,3 @@ services:
       UPLOAD_LIMIT: 64M
     depends_on:
       - db
-      

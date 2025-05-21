@@ -1,6 +1,5 @@
 <?php
 include('conn.php');
-
 $device_id = isset($_GET['device']) ? intval($_GET['device']) : 1;
 $mode = isset($_GET['mode']) ? $_GET['mode'] : 'latest';
 

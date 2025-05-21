@@ -6,7 +6,7 @@
      <span>DashBoard</span>
 </div>
 <div class="list-side">
-     <div class="nav-link" onclick="navigateToPage(this, 'electrical.php')">
+     <div class="nav-link" onclick="navigateToPage(this, 'electrical.php')" id="defaultNav">
           <span class="icon"> 
                <i class="fa-solid fa-bolt-lightning"></i>
           </span>
@@ -33,6 +33,11 @@
 </div>
 
 <script>
+     const defaultNav = document.querySelector('.nav-link[id="defaultNav"]');
+     if (defaultNav) {
+          navigateToPage(defaultNav, 'electrical.php');
+     }
+
      function navigateToPage(element, page) {
           // ลบ active ออกจากทุก nav-link
           document.querySelectorAll('.nav-link').forEach(el => {
@@ -41,7 +46,7 @@
 
           // ใส่ active ให้ element ที่คลิก
           element.classList.add('active');
-
+          console.log('element',element);
           // โหลดเนื้อหาใหม่
           fetch('loader.php?page=' + encodeURIComponent(page))
                .then(response => response.text())
@@ -74,5 +79,4 @@
                }
           );
      }
-
 </script>

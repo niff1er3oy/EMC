@@ -1,6 +1,5 @@
 <?php
 include('conn.php');
-
 $device = isset($_GET['device']) ? intval($_GET['device']) : 1;
 
 header('Content-Type: text/csv; charset=utf-8');
