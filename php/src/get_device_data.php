@@ -11,9 +11,15 @@ if ($mode === 'latest') {
             LIMIT 7";
 } elseif ($mode === 'day') {
     $sql = "SELECT 
-                HOUR(time) as hour,
-                AVG(Van) as Van, AVG(Ia) as Ia, AVG(Pa) as Pa, AVG(Qa) as Qa,
-                AVG(Sa) as Sa, AVG(Pfa) as Pfa, AVG(f) as f, AVG(pkWh_all) as pkWh_all
+                HOUR(time) AS hour,
+                AVG(NULLIF(Van, 0)) AS Van,
+                AVG(NULLIF(Ia, 0)) AS Ia,
+                AVG(NULLIF(Pa, 0)) AS Pa,
+                AVG(NULLIF(Qa, 0)) AS Qa,
+                AVG(NULLIF(Sa, 0)) AS Sa,
+                AVG(NULLIF(Pfa, 0)) AS Pfa,
+                AVG(NULLIF(f, 0)) AS f,
+                AVG(NULLIF(pkWh_all, 0)) AS pkWh_all
             FROM Schneider
             WHERE Dv_ID = $device_id AND date = CURDATE()
             GROUP BY HOUR(time)
@@ -21,8 +27,14 @@ if ($mode === 'latest') {
 } elseif ($mode === 'month') {
     $sql = "SELECT 
                 date,
-                AVG(Van) as Van, AVG(Ia) as Ia, AVG(Pa) as Pa, AVG(Qa) as Qa,
-                AVG(Sa) as Sa, AVG(Pfa) as Pfa, AVG(f) as f, AVG(pkWh_all) as pkWh_all
+                AVG(NULLIF(Van, 0)) AS Van,
+                AVG(NULLIF(Ia, 0)) AS Ia,
+                AVG(NULLIF(Pa, 0)) AS Pa,
+                AVG(NULLIF(Qa, 0)) AS Qa,
+                AVG(NULLIF(Sa, 0)) AS Sa,
+                AVG(NULLIF(Pfa, 0)) AS Pfa,
+                AVG(NULLIF(f, 0)) AS f,
+                AVG(NULLIF(pkWh_all, 0)) AS pkWh_all
             FROM Schneider
             WHERE Dv_ID = $device_id AND MONTH(date) = MONTH(CURDATE()) AND YEAR(date) = YEAR(CURDATE())
             GROUP BY date
@@ -30,8 +42,14 @@ if ($mode === 'latest') {
 } elseif ($mode === 'year') {
     $sql = "SELECT 
                 MONTH(date) as month,
-                AVG(Van) as Van, AVG(Ia) as Ia, AVG(Pa) as Pa, AVG(Qa) as Qa,
-                AVG(Sa) as Sa, AVG(Pfa) as Pfa, AVG(f) as f, AVG(pkWh_all) as pkWh_all
+                AVG(NULLIF(Van, 0)) AS Van,
+                AVG(NULLIF(Ia, 0)) AS Ia,
+                AVG(NULLIF(Pa, 0)) AS Pa,
+                AVG(NULLIF(Qa, 0)) AS Qa,
+                AVG(NULLIF(Sa, 0)) AS Sa,
+                AVG(NULLIF(Pfa, 0)) AS Pfa,
+                AVG(NULLIF(f, 0)) AS f,
+                AVG(NULLIF(pkWh_all, 0)) AS pkWh_all
             FROM Schneider
             WHERE Dv_ID = $device_id AND YEAR(date) = YEAR(CURDATE())
             GROUP BY MONTH(date)

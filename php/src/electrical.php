@@ -2,7 +2,7 @@
 <div class="device" id="device-1">
      <div class="grid-title item-title-1">
           <div class="title">Device Name <i class="fa-solid fa-server"></i></div>
-          <span class="value">Device 1</span>
+          <span class="value">Water pump</span>
      </div>
      <div class="grid-item" data-type="voltage" data-device="1">
           <div class="title">Voltage</div>
@@ -22,21 +22,21 @@
           <div class="title">Active Power</div>
           <div class="value-container">
                <span class="value">0</span>
-               <span class="unit">W</span>
+               <span class="unit">kW</span>
           </div>
      </div> 
      <div class="grid-item" data-type="r-power" data-device="1">
           <div class="title">Reactive Power</div>
           <div class="value-container">
                <span class="value">0</span>
-               <span class="unit">VAR</span>
+               <span class="unit">kVAR</span>
           </div>
      </div>
      <div class="grid-item" data-type="app-power" data-device="1">
           <div class="title">Apparent Power</div>
           <div class="value-container">
                <span class="value">0</span>
-               <span class="unit">VA</span>
+               <span class="unit">kVA</span>
           </div>
      </div>
      <div class="grid-item" data-type="power-f" data-device="1">
@@ -78,7 +78,7 @@
 <div class="device" id="device-2">
      <div class="grid-title item-title-2">
           <div class="title">Device Name <i class="fa-solid fa-server"></i></div>
-          <span class="value">Device 2</span>
+          <span class="value">Air pump</span>
      </div>
      <div class="grid-item" data-type="voltage" data-device="2">
           <div class="title">Voltage</div>
@@ -98,21 +98,21 @@
           <div class="title">Active Power</div>
           <div class="value-container">
                <span class="value">0</span>
-               <span class="unit">W</span>
+               <span class="unit">kW</span>
           </div>
      </div> 
      <div class="grid-item" data-type="r-power" data-device="2">
           <div class="title">Reactive Power</div>
           <div class="value-container">
                <span class="value">0</span>
-               <span class="unit">VAR</span>
+               <span class="unit">kVAR</span>
           </div>
      </div>
      <div class="grid-item" data-type="app-power" data-device="2">
           <div class="title">Apparent Power</div>
           <div class="value-container">
                <span class="value">0</span>
-               <span class="unit">VA</span>
+               <span class="unit">kVA</span>
           </div>
      </div>
      <div class="grid-item" data-type="power-f" data-device="2">

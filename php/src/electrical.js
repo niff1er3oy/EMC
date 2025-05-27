@@ -39,13 +39,16 @@ function initElectricalPage() {
                fill: false,
                backgroundColor: 'chartreuse',
                hoverBackgroundColor: 'rgba(255, 255, 255, 0.9)',
+               borderColor: 'rgba(255, 255, 255, 0.9)',
+               pointRadius: 6,
+               borderWidth: 6,
                tension: 0.3
           }]
      };
      
      // แล้วค่อยประกาศ config
      const config = {
-          type: 'bar',
+          type: 'line',
           data: data,
           options: {
                responsive: true,
@@ -95,21 +98,41 @@ const selectedTypeByDevice = { '1': null, '2': null };
 const selectedModeByDevice = { '1': 'latest', '2': 'latest' }; // ค่าเริ่มต้น
 
 function updateChart(device) {
-     const type = selectedTypeByDevice[device];
-     const mode = selectedModeByDevice[device];
-     if (!type) return;
+    const type = selectedTypeByDevice[device];
+    const mode = selectedModeByDevice[device];
+    if (!type) return;
 
-     fetch(`get_device_data.php?device=${device}&mode=${mode}`)
-          .then(res => res.json())
-          .then(data => {
-               const chart = device === '1' ? chart1 : chart2;
-               console.log(`updateChart device=${device} &mode=${mode} &type=${type}`);
-               chart.data.labels = data.map(entry => entry.label);
-               chart.data.datasets[0].data = data.map(entry => entry[type]);
-               chart.data.datasets[0].label = `${type.toUpperCase()} (Device ${device} - ${mode})`;
-               chart.update();
-          });
+    fetch(`get_device_data.php?device=${device}&mode=${mode}`)
+        .then(res => res.json())
+        .then(data => {
+            const chart = device === '1' ? chart1 : chart2;
+            console.log(`updateChart device=${device} &mode=${mode} &type=${type}`);
+
+            // เตรียมข้อมูล
+            const labels = data.map(entry => entry.label);
+            const values = data.map(entry => entry[type]);
+
+            // เปลี่ยนชนิดกราฟถ้าเป็น t-a-e
+            if (type === 't-a-e') {
+                chart.config.type = 'bar';
+                chart.data.datasets[0].backgroundColor = 'chartreuse'; // สีสำหรับกราฟแท่ง
+            } else {
+                chart.config.type = 'line';
+                chart.data.datasets[0].backgroundColor = 'chartreuse';
+                chart.data.datasets[0].fill = false;
+                chart.data.datasets[0].tension = 0.3;
+            }
+
+            chart.data.labels = labels;
+            chart.data.datasets[0].data = values;
+            chart.data.datasets[0].label = `${type.toUpperCase()} (Device ${device} - ${mode})`;
+            chart.update();
+        })
+        .catch(error => {
+            console.error('เกิดข้อผิดพลาดในการโหลดข้อมูล:', error);
+        });
 }
+
 
 // เมื่อคลิกเลือกประเภท
 document.querySelectorAll('.grid-item[data-type][data-device]').forEach(el => {
@@ -160,4 +183,14 @@ document.querySelectorAll('.download').forEach(btn => {
     });
 });
 
+// ค่าเริ่มต้นสำหรับ device 1 = voltage, device 2 = t-a-e
+const defaultSelections = [
+     { device: '1', type: 'voltage' },
+     { device: '2', type: 't-a-e' }
+];
+
+defaultSelections.forEach(({ device, type }) => {
+     const btn = document.querySelector(`.grid-item[data-device="${device}"][data-type="${type}"]`);
+     if (btn) btn.click();
+});
 }
