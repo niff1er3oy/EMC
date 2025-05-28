@@ -40,14 +40,14 @@ function initElectricalPage() {
                backgroundColor: 'chartreuse',
                hoverBackgroundColor: 'rgba(255, 255, 255, 0.9)',
                borderColor: 'rgba(255, 255, 255, 0.9)',
-               pointRadius: 6,
-               borderWidth: 6,
+               pointRadius: 5,
+               borderWidth: 5,
                tension: 0.3
           }]
      };
      
      // แล้วค่อยประกาศ config
-     const config = {
+     const baseConfig = {
           type: 'line',
           data: data,
           options: {
@@ -90,8 +90,11 @@ function initElectricalPage() {
      };
      
      // สร้างกราฟ
-     const chart1 = new Chart(ctx1, config);
-     const chart2 = new Chart(ctx2, config);
+     const config1 = structuredClone(baseConfig); // หรือ JSON.parse(JSON.stringify(baseConfig));
+     const config2 = structuredClone(baseConfig);
+
+     const chart1 = new Chart(ctx1, config1);
+     const chart2 = new Chart(ctx2, config2);
      
 // state เก็บ type ที่เลือกของแต่ละ device
 const selectedTypeByDevice = { '1': null, '2': null };
@@ -108,24 +111,30 @@ function updateChart(device) {
             const chart = device === '1' ? chart1 : chart2;
             console.log(`updateChart device=${device} &mode=${mode} &type=${type}`);
 
-            // เตรียมข้อมูล
             const labels = data.map(entry => entry.label);
             const values = data.map(entry => entry[type]);
 
-            // เปลี่ยนชนิดกราฟถ้าเป็น t-a-e
-            if (type === 't-a-e') {
-                chart.config.type = 'bar';
-                chart.data.datasets[0].backgroundColor = 'chartreuse'; // สีสำหรับกราฟแท่ง
+            // เปลี่ยนชนิดกราฟและตั้งค่า scale
+            const isTAE = type === 't-a-e';
+            const isVoltage = type === 'voltage';
+          
+            chart.config.type = isTAE ? 'bar' : 'line';
+            chart.data.datasets[0].backgroundColor = 'chartreuse';
+            chart.data.datasets[0].fill = isTAE;
+            chart.data.datasets[0].tension = isTAE ? undefined : 0.3;
+
+            if (isVoltage) {
+                chart.options.scales.y.min = 150;
+                chart.options.scales.y.max = 250;
             } else {
-                chart.config.type = 'line';
-                chart.data.datasets[0].backgroundColor = 'chartreuse';
-                chart.data.datasets[0].fill = false;
-                chart.data.datasets[0].tension = 0.3;
+                delete chart.options.scales.y.min;
+                delete chart.options.scales.y.max;
             }
 
             chart.data.labels = labels;
             chart.data.datasets[0].data = values;
             chart.data.datasets[0].label = `${type.toUpperCase()} (Device ${device} - ${mode})`;
+
             chart.update();
         })
         .catch(error => {
@@ -161,16 +170,26 @@ document.querySelectorAll('.grid-item[data-type][data-device]').forEach(el => {
 });
 
 // เมื่อคลิกปุ่มเลือก mode
-document.querySelectorAll('.mode-buttons button').forEach(btn => {
+document.querySelectorAll('.mode-buttons .button-group button').forEach(btn => {
      btn.addEventListener('click', () => {
           const device = btn.closest('.mode-buttons').dataset.device;
           const mode = btn.dataset.mode;
 
+          // ลบคลาส active จากปุ่มอื่น ๆ ภายใน button-group เดียวกัน
+          btn.closest('.button-group').querySelectorAll('button').forEach(b => {
+               b.classList.remove('active');
+          });
+
+          // เพิ่มคลาส active ให้ปุ่มที่ถูกคลิก
+          btn.classList.add('active');
+
+          // ตั้งค่า mode และอัปเดตกราฟ
           selectedModeByDevice[device] = mode;
           updateChart(device);
           console.log(`querySelectorAll device=${device} &mode=${mode}`);
      });
 });
+
 
 // อัปเดตทุก 5 วินาที
 setInterval(() => updateChart('1'), 50000);
@@ -185,7 +204,7 @@ document.querySelectorAll('.download').forEach(btn => {
 
 // ค่าเริ่มต้นสำหรับ device 1 = voltage, device 2 = t-a-e
 const defaultSelections = [
-     { device: '1', type: 'voltage' },
+     { device: '1', type: 't-a-e' },
      { device: '2', type: 't-a-e' }
 ];
 

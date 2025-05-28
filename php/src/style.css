@@ -110,6 +110,12 @@ body{
     font-size: 25px;
 }
 
+.button-group button.active {
+    background-color: chartreuse;
+    color: black;
+    font-weight: bold;
+}
+
 .main-content {
      height: 100vh;
      overflow-y: auto;

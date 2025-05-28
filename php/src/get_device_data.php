@@ -9,21 +9,23 @@ if ($mode === 'latest') {
             WHERE Dv_ID = $device_id 
             ORDER BY id DESC 
             LIMIT 7";
-} elseif ($mode === 'day') {
+} elseif ($mode === 'week') {
     $sql = "SELECT 
-                HOUR(time) AS hour,
-                AVG(NULLIF(Van, 0)) AS Van,
-                AVG(NULLIF(Ia, 0)) AS Ia,
-                AVG(NULLIF(Pa, 0)) AS Pa,
-                AVG(NULLIF(Qa, 0)) AS Qa,
-                AVG(NULLIF(Sa, 0)) AS Sa,
-                AVG(NULLIF(Pfa, 0)) AS Pfa,
-                AVG(NULLIF(f, 0)) AS f,
-                AVG(NULLIF(pkWh_all, 0)) AS pkWh_all
-            FROM Schneider
-            WHERE Dv_ID = $device_id AND date = CURDATE()
-            GROUP BY HOUR(time)
-            ORDER BY hour";
+            date,
+            FLOOR(HOUR(time) / 12) * 12 AS hour_range,
+            AVG(NULLIF(Van, 0)) AS Van,
+            AVG(NULLIF(Ia, 0)) AS Ia,
+            AVG(NULLIF(Pa, 0)) AS Pa,
+            AVG(NULLIF(Qa, 0)) AS Qa,
+            AVG(NULLIF(Sa, 0)) AS Sa,
+            AVG(NULLIF(Pfa, 0)) AS Pfa,
+            AVG(NULLIF(f, 0)) AS f,
+            AVG(NULLIF(pkWh_all, 0)) AS pkWh_all
+        FROM Schneider
+        WHERE 
+            Dv_ID = $device_id AND date >= CURDATE() - INTERVAL 7 DAY
+        GROUP BY date, hour_range
+        ORDER BY date, hour_range";
 } elseif ($mode === 'month') {
     $sql = "SELECT 
                 date,
@@ -61,10 +63,18 @@ $data = [];
 
 while ($row = $result->fetch_assoc()) {
     $label = '';
-    if ($mode === 'day') $label = $row['hour'] . ":00";
-    elseif ($mode === 'month') $label = $row['date'];
-    elseif ($mode === 'year') $label = str_pad($row['month'], 2, '0', STR_PAD_LEFT) . '/' . date('Y');
-    else $label = $row["date"] . " " . $row["time"];
+
+    if ($mode === 'week') {
+        $start = str_pad($row['hour_range'], 2, '0', STR_PAD_LEFT) . ':00';
+        $end = str_pad($row['hour_range'] + 11, 2, '0', STR_PAD_LEFT) . ':59';
+        $label = $row['date'] . " {$start}-{$end}";
+    } elseif ($mode === 'month') {
+        $label = $row['date'];
+    } elseif ($mode === 'year') {
+        $label = str_pad($row['month'], 2, '0', STR_PAD_LEFT) . '/' . date('Y');
+    } else {
+        $label = $row["date"] . " " . $row["time"];
+    }
 
     $data[] = [
         "voltage" => floatval($row["Van"]),

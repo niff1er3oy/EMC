@@ -63,8 +63,8 @@
           <div class="mode-buttons" data-device="1">
                <div class="sort-label">Sort by</div>
                <div class="button-group">
-                    <button data-mode="latest">Latest</button>
-                    <button data-mode="day">Day</button>
+                    <button data-mode="latest" class="active">Latest</button>
+                    <button data-mode="week">Week</button>
                     <button data-mode="month">Month</button>
                     <button data-mode="year">Year</button>
                </div>
@@ -139,8 +139,8 @@
           <div class="mode-buttons" data-device="2">
                <div class="sort-label">Sort by</div>
                <div class="button-group">
-                    <button data-mode="latest">Latest</button>
-                    <button data-mode="day">Day</button>
+                    <button data-mode="latest" class="active">Latest</button>
+                    <button data-mode="week">Week</button>
                     <button data-mode="month">Month</button>
                     <button data-mode="year">Year</button>
                </div>
