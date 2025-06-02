@@ -12,12 +12,12 @@
           </span>
           <span>Electrical Values</span>
      </div>
-     <div class="nav-link" onclick="navigateToPage(this, 'quality.php')">
+     <!-- <div class="nav-link" onclick="navigateToPage(this, 'quality.php')">
           <span class="icon">
                <i class="fa-solid fa-droplet"></i>
           </span>
           <span>Water Quality</span>
-     </div>
+     </div> -->
      <div class="nav-link" onclick="navigateToPage(this, 'temperature.php')">
           <span class="icon">
                <i class="fa-solid fa-temperature-low"></i>
@@ -25,12 +25,12 @@
           <span>Water Temperature</span>
      </div>
 </div>
-<div class="foot-side">
+<!-- <div class="foot-side">
      <span class="icon"    >
           <i class="fa-solid fa-right-from-bracket"></i>
      </span>
      <span>Log out</span>
-</div>
+</div> -->
 
 <script>
      const defaultNav = document.querySelector('.nav-link[id="defaultNav"]');
@@ -62,7 +62,7 @@
 
                     // สร้าง script ใหม่พร้อม timestamp ป้องกัน cache
                     const script = document.createElement('script');
-                    script.src = page.replace('.php', '.js') + '?t=' + Date.now();
+                    script.src = 'js/' + page.replace('.php', '.js') + '?t=' + Date.now();
                     script.id = 'dynamicScript';
 
                     script.onload = function () {
