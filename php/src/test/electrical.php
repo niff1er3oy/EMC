@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="css/electrical.css">
 
 <div class="device" id="device-1">
      <div class="grid-title item-title-1">
@@ -63,10 +64,10 @@
           <div class="mode-buttons" data-device="1">
                <div class="sort-label">Sort by</div>
                <div class="button-group">
-                    <button data-mode="latest" class="active">Latest</button>
-                    <button data-mode="week">Week</button>
-                    <button data-mode="month">Month</button>
-                    <button data-mode="year">Year</button>
+                    <button data-mode="latest" class="active"><i class="fas fa-clock"></i> Latest</button>
+                    <button data-mode="week"><i class="fas fa-calendar-week"></i> Week</button>
+                    <button data-mode="month"><i class="fas fa-calendar-alt"></i> Month</button>
+                    <button data-mode="year"><i class="fas fa-calendar"></i> Year</button>
                </div>
                <button class="download" data-device="1">Download</button>
           </div>
@@ -139,10 +140,10 @@
           <div class="mode-buttons" data-device="2">
                <div class="sort-label">Sort by</div>
                <div class="button-group">
-                    <button data-mode="latest" class="active">Latest</button>
-                    <button data-mode="week">Week</button>
-                    <button data-mode="month">Month</button>
-                    <button data-mode="year">Year</button>
+                    <button data-mode="latest" class="active"><i class="fas fa-clock"></i> Latest</button>
+                    <button data-mode="week"><i class="fas fa-calendar-week"></i> Week</button>
+                    <button data-mode="month"><i class="fas fa-calendar-alt"></i> Month</button>
+                    <button data-mode="year"><i class="fas fa-calendar"></i> Year</button>
                </div>
                <button class="download" data-device="2">Download</button>
           </div>

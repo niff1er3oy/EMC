@@ -1,6 +1,6 @@
 function initElectricalPage() {
      function loadDeviceData() {
-     fetch('get-latest-data.php')
+     fetch('api/electrical.php?action=get_latest_data')
           .then(response => response.json())
           .then(data => {
                console.log('loadDeviceData ทำงานแล้ว!');
@@ -105,7 +105,7 @@ function updateChart(device) {
     const mode = selectedModeByDevice[device];
     if (!type) return;
 
-    fetch(`get_device_data.php?device=${device}&mode=${mode}`)
+    fetch(`api/electrical.php?action=get_device_data&device=${device}&mode=${mode}`)
         .then(res => res.json())
         .then(data => {
             const chart = device === '1' ? chart1 : chart2;
@@ -199,7 +199,7 @@ document.querySelectorAll('.download').forEach(btn => {
     btn.addEventListener('click', () => {
         const device = btn.dataset.device;
         const mode = selectedModeByDevice[device] || 'latest'; // fallback ถ้าไม่เจอ
-        window.open(`export_excel.php?device=${device}&mode=${mode}`, '_blank');
+        window.open(`api/electrical.php?action=download&device=${device}&mode=${mode}`, '_blank');
     });
 });
 
